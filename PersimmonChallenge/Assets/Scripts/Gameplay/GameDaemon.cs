@@ -6,8 +6,8 @@ namespace Gameplay
 {
     class GameDaemon : GameSystem.SingletonMonoBehaviour< GameDaemon >
     {
-        [SerializeField] private GameObject     m_lightListObj  = null;
-        [SerializeField] private List< LightLayer >          m_lightLayerList   = new List< LightLayer >();
+        [SerializeField] private GameObject                 m_lightListObj  = null;
+        [SerializeField] private List< LightLayer >         m_lightLayerList   = new List< LightLayer >();
 
         private List< Light >           m_directionalLightList  = new List< Light >();
         private List< GameObject >      m_spotLightList         = new List< GameObject >();
@@ -47,7 +47,7 @@ namespace Gameplay
             foreach (var light in m_directionalLightList)
             {
                 Vector3 lightRotAngles          = light.transform.localRotation.eulerAngles;
-                LightLayer lightLayer = m_lightLayerList.Find(info => info.m_layer == light.gameObject.layer );
+                LightLayer lightLayer = m_lightLayerList.Find(info => (int)info.m_layer == light.gameObject.layer );
                 light.transform.rotation        = Quaternion.Euler(lightRotAngles.x, lightRotAngles.y + Time.deltaTime * lightLayer.m_speed, lightRotAngles.z);
             }
             
@@ -101,7 +101,15 @@ namespace Gameplay
         [System.Serializable]
         private class LightLayer
         {
-            public int      m_layer = 0;
+            public enum ELayer
+            {
+                Normal = 8,
+                HiSpeed,
+                Reverse,
+                ReverseHiSpeed,
+            }
+
+            public ELayer   m_layer = ELayer.Normal;
             public float    m_speed = 0.0f;
         }
 //------------------------------------------------------------------------
