@@ -7,7 +7,6 @@ namespace Gameplay
     class GameDaemon : GameSystem.SingletonMonoBehaviour< GameDaemon >
     {
         [SerializeField] private GameObject     m_lightListObj  = null;
-        [SerializeField] private float          m_rotSpeed      = 1.0f;
         [SerializeField] private List< LightLayer >          m_lightLayerList   = new List< LightLayer >();
 
         private List< Light >           m_directionalLightList  = new List< Light >();
@@ -102,8 +101,8 @@ namespace Gameplay
         [System.Serializable]
         private class LightLayer
         {
-            public int      m_layer;
-            public float    m_speed;
+            public int      m_layer = 0;
+            public float    m_speed = 0.0f;
         }
 //------------------------------------------------------------------------
 
