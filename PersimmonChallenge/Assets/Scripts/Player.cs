@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+	public float AccelScale;
 	int life = 3;
 	int returnInterval = 0;
 	float acceleration = 0.02f;
@@ -18,40 +19,34 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		var dir = Vector3.zero;
+		dir.z = -Input.acceleration.y;
+		dir.x = -Input.acceleration.x;
+		
+		// clamp acceleration vector to unit sphere
+		if (dir.sqrMagnitude > 1) {
+			dir.Normalize();
+		}
+		Move (dir.x * AccelScale, dir.y * AccelScale, dir.z * AccelScale);
+		
 		if ( Input.GetKey( KeyCode.LeftArrow ) )
 		{
-			float x = rigidbody.velocity.x + acceleration;
-			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z;
-			
-			rigidbody.velocity = new Vector3(x, y, z);
+			Move (acceleration,0,0);
 		}
 		
 		if ( Input.GetKey( KeyCode.RightArrow ) )
 		{
-			float x = rigidbody.velocity.x - acceleration;
-			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z;
-			
-			rigidbody.velocity = new Vector3(x, y, z);
+			Move (-acceleration,0,0);
 		}
-
+		
 		if ( Input.GetKey( KeyCode.UpArrow ) )
 		{
-			float x = rigidbody.velocity.x;
-			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z - acceleration;
-			
-			rigidbody.velocity = new Vector3(x, y, z);
+			Move (0,0,-acceleration);
 		}
 		
 		if ( Input.GetKey( KeyCode.DownArrow ) )
 		{
-			float x = rigidbody.velocity.x;
-			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z + acceleration;
-			
-			rigidbody.velocity = new Vector3(x, y, z);
+			Move (0,0,acceleration);
 		}
 
 		if ( stateFlag == false )
@@ -68,6 +63,14 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	private void Move (float x, float y, float z) {
+		
+		float _x = rigidbody.velocity.x + x;
+		float _y = rigidbody.velocity.y + y;
+		float _z = rigidbody.velocity.z + z;
+		
+		rigidbody.velocity = new Vector3(_x, _y, _z);
+	}
 	// ボーダーラインとの衝突判定
 	void OnTriggerEnter( Collider other )
 	{
