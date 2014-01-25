@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 	{
 		if ( Input.GetKey( KeyCode.LeftArrow ) )
 		{
-			float x = rigidbody.velocity.x - acceleration;
+			float x = rigidbody.velocity.x + acceleration;
 			float y = rigidbody.velocity.y;
 			float z = rigidbody.velocity.z;
 			
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 		
 		if ( Input.GetKey( KeyCode.RightArrow ) )
 		{
-			float x = rigidbody.velocity.x + acceleration;
+			float x = rigidbody.velocity.x - acceleration;
 			float y = rigidbody.velocity.y;
 			float z = rigidbody.velocity.z;
 			
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 		{
 			float x = rigidbody.velocity.x;
 			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z + acceleration;
+			float z = rigidbody.velocity.z - acceleration;
 			
 			rigidbody.velocity = new Vector3(x, y, z);
 		}
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 		{
 			float x = rigidbody.velocity.x;
 			float y = rigidbody.velocity.y;
-			float z = rigidbody.velocity.z - acceleration;
+			float z = rigidbody.velocity.z + acceleration;
 			
 			rigidbody.velocity = new Vector3(x, y, z);
 		}
