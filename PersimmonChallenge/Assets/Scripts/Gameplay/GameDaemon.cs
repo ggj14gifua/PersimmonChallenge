@@ -6,13 +6,16 @@ namespace Gameplay
 {
     class GameDaemon : GameSystem.SingletonMonoBehaviour< GameDaemon >
     {
-        [SerializeField] private Light          m_mainLight     = null;
-        [SerializeField] private GameObject     m_spotLights    = null;
+        [SerializeField] private GameObject     m_lightListObj  = null;
         [SerializeField] private float          m_rotSpeed      = 1.0f;
+        [SerializeField] private List< LightLayer >          m_lightLayerList   = new List< LightLayer >();
 
-        private List< GameObject >   m_spotLightList     = new List< GameObject >();
+        private List< Light >           m_directionalLightList  = new List< Light >();
+        private List< GameObject >      m_spotLightList         = new List< GameObject >();
 
-        public Light MainLight { get { return m_mainLight; } set { m_mainLight = value; } }
+
+
+        // public Light MainLight { get { return m_mainLight; } set { m_mainLight = value; } }
 
 //////////////////////////////////////////////////////////////////////////
 // 
@@ -23,6 +26,8 @@ namespace Gameplay
         protected override void Awake()
         {
             base.Awake();
+
+            m_directionalLightList.AddRange(m_lightListObj.GetComponentsInChildren<Light>());
 
 //             foreach( Transform child in m_spotLights.transform )
 //             {
@@ -40,8 +45,13 @@ namespace Gameplay
 
 	    void Update()
 	    {
-            Vector3 lightRotAngles = MainLight.transform.localRotation.eulerAngles;
-            MainLight.transform.rotation = Quaternion.Euler(lightRotAngles.x, lightRotAngles.y + Time.deltaTime * m_rotSpeed, lightRotAngles.z);
+            foreach (var light in m_directionalLightList)
+            {
+                Vector3 lightRotAngles          = light.transform.localRotation.eulerAngles;
+                LightLayer lightLayer = m_lightLayerList.Find(info => info.m_layer == light.gameObject.layer );
+                light.transform.rotation        = Quaternion.Euler(lightRotAngles.x, lightRotAngles.y + Time.deltaTime * lightLayer.m_speed, lightRotAngles.z);
+            }
+            
 
 
 	    }
@@ -52,6 +62,13 @@ namespace Gameplay
 // Public
 // 
 //////////////////////////////////////////////////////////////////////////
+
+
+        public Light FindDirectionalLight(GameObject i_obj)
+        {
+            return m_directionalLightList.Find(light => light.gameObject.layer == i_obj.layer);
+        }
+//------------------------------------------------------------------------
 
         public GameObject FindNearSpotLight( GameObject i_object )
         {
@@ -82,6 +99,16 @@ namespace Gameplay
         }
 //------------------------------------------------------------------------
 
+        [System.Serializable]
+        private class LightLayer
+        {
+            public int      m_layer;
+            public float    m_speed;
+        }
+//------------------------------------------------------------------------
+
     } // class GameDaemon
+
+
 
 } // namespace Gameplay

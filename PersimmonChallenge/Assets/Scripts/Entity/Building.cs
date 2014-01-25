@@ -17,8 +17,10 @@ namespace Entity
         [SerializeField] private float          m_spotAngle         = 0.0f;
         [SerializeField] private float          m_spotLength        = 2.0f;
         
-        private MeshRenderer                    m_buildingRenderer  = null;
         private MeshRenderer                    m_shadowRenderer    = null;
+
+        private const float FIX_BASE_SIZE   = 10.0f;
+        private const float OBJ_BASE_SIZE   = /*20.0f*/10.0f;
 
         private const float BASEMESH_SIZE   = 10.0f;
         private const float BASEHALF_SIZE   = BASEMESH_SIZE * 0.5f;
@@ -33,7 +35,7 @@ namespace Entity
 
 	    void Awake()
         {
-            m_buildingRenderer  = m_buildingObject.GetComponent< MeshRenderer >();
+            // m_buildingRenderer  = m_buildingObject.GetComponent< MeshRenderer >();
             m_shadowRenderer    = m_shadowObject.GetComponent< MeshRenderer >();
         }
 //------------------------------------------------------------------------
@@ -59,16 +61,7 @@ namespace Entity
 
         private void UpdateShadow()
         {
-            if (m_lightType == ELightType.Spot)
-            {
-                m_shadowRenderer.enabled        = true;
-                m_buildingRenderer.castShadows  = false;
-            }
-            else
-            {
-                m_shadowRenderer.enabled        = false;
-                m_buildingRenderer.castShadows  = true;
-            }
+            m_shadowRenderer.enabled    = true;
 
             UpdateShadowRotation();
             UpdateShadowScale();
@@ -80,28 +73,13 @@ namespace Entity
         {
             if (m_lightType == ELightType.Spot)
             {
-//                 GameObject  lightObj    = Gameplay.GameDaemon.Instance.FindNearSpotLight(gameObject);
-//                 Vector3     curPos      = transform.position;
-//                 Vector3     lightPos    = lightObj.transform.position;
-//                 Vector3     lightDir    = curPos - lightPos;
-//                 lightDir.y = 0.0f;
-//                 lightDir.Normalize();
-// 
-// 
-//                 float angle             = Vector3.Angle( Vector3.forward, lightDir );
-//                 if (curPos.x < lightPos.x)
-//                 {
-//                     angle = -angle;
-//                 }
-
-
-                Vector3 shadowRotAngles = m_shadowObject.transform.rotation.eulerAngles;
-                m_shadowObject.transform.rotation = Quaternion.Euler(shadowRotAngles.x, /*angle*/m_spotAngle, shadowRotAngles.z);
+                Vector3 shadowRotAngles             = m_shadowObject.transform.rotation.eulerAngles;
+                m_shadowObject.transform.rotation   = Quaternion.Euler(shadowRotAngles.x, m_spotAngle, shadowRotAngles.z);
 
             }
             else
             {
-                Light   mainLight           = Gameplay.GameDaemon.Instance.MainLight;
+                Light   mainLight           = Gameplay.GameDaemon.Instance.FindDirectionalLight( gameObject );
 
                 Vector3 lightRotAngles      = mainLight.transform.localRotation.eulerAngles;
                 Vector3 shadowRotAngles     = m_shadowObject.transform.rotation.eulerAngles;
@@ -117,10 +95,10 @@ namespace Entity
                 Vector3 buildingScale       = m_buildingObject.transform.localScale;
                 float   radiusScale         = buildingScale.x >= buildingScale.z ? buildingScale.x : buildingScale.z;
                 Vector3 shadowScale         = m_shadowObject.transform.localScale;
-                shadowScale.x   = shadowScale.z     = radiusScale / BASEMESH_SIZE;
+
+                float   baseSize            = m_lightType == ELightType.Spot ? FIX_BASE_SIZE : OBJ_BASE_SIZE;
+                shadowScale.x   = shadowScale.z     = radiusScale / baseSize;
                 m_shadowObject.transform.localScale = shadowScale;
-
-
             }
 
             if (m_lightType == ELightType.Spot)
@@ -131,7 +109,7 @@ namespace Entity
             }
             else
             {
-                Light   mainLight           = Gameplay.GameDaemon.Instance.MainLight;
+                Light   mainLight           = Gameplay.GameDaemon.Instance.FindDirectionalLight( gameObject );
 
                 Vector3 lightRotAngles      = mainLight.transform.localRotation.eulerAngles;
                 if( lightRotAngles.x >= 90.0f )
@@ -160,7 +138,7 @@ namespace Entity
             }
             else
             {
-                Light mainLight     = Gameplay.GameDaemon.Instance.MainLight;
+                Light mainLight     = Gameplay.GameDaemon.Instance.FindDirectionalLight( gameObject );
                 lightRotAngles      = mainLight.transform.localRotation.eulerAngles;
             }
 
@@ -168,12 +146,16 @@ namespace Entity
             Quaternion  rot         = Quaternion.AngleAxis( lightRotAngles.y, Vector3.up );
             Vector3     direction   = rot * Vector3.forward;
             Vector3     pos         = m_buildingObject.transform.localPosition;
-            pos.y                  -= m_buildingObject.transform.localScale.y;
+            
             if (m_lightType == ELightType.Spot)
             {
-                pos.y              += m_buildingObject.transform.localScale.y * 0.5f;
-                pos.y              += 0.01f;
+                pos.y              -= m_buildingObject.transform.localScale.y * 0.5f;
             }
+            else
+            {
+                pos.y              -= m_buildingObject.transform.localScale.y;
+            }
+            pos.y                  += 0.02f;
             pos                    += direction * BASEHALF_SIZE * m_shadowObject.transform.localScale.z;
 
             m_shadowObject.transform.localPosition = pos;
