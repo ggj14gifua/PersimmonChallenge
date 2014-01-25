@@ -20,12 +20,9 @@ namespace Entity
         private MeshRenderer                    m_shadowRenderer    = null;
 
         private const float FIX_BASE_SIZE   = 10.0f;
-        private const float OBJ_BASE_SIZE   = /*20.0f*/10.0f;
-
-        private const float BASEMESH_SIZE   = 10.0f;
-        private const float BASEHALF_SIZE   = BASEMESH_SIZE * 0.5f;
-
-        private const float CTRL_SCLAE      = 1.1f;
+        private const float OBJ_BASE_SIZE   = 20.0f/*10.0f*/;
+        private const float OBJ_LENGTH_SIZE = 25.0f/*10.0f*/;
+        private const float OBJ_POS_SIZE    = 10.0f;
 
 //////////////////////////////////////////////////////////////////////////
 // 
@@ -104,7 +101,7 @@ namespace Entity
             if (m_lightType == ELightType.Spot)
             {
                 Vector3 scale   = m_shadowObject.transform.localScale;
-                scale.z         = m_spotLength / BASEMESH_SIZE;
+                scale.z         = m_spotLength / FIX_BASE_SIZE;
                 m_shadowObject.transform.localScale = scale;
             }
             else
@@ -122,7 +119,7 @@ namespace Entity
                 float   height  = m_buildingObject.transform.localScale.y * 2.0f;
                 float   length  = height / tan;
                 Vector3 scale   = m_shadowObject.transform.localScale;
-                scale.z         = length  / BASEMESH_SIZE * CTRL_SCLAE;
+                scale.z         = length  / OBJ_LENGTH_SIZE;
                 m_shadowObject.transform.localScale = scale;
             }
             
@@ -152,11 +149,13 @@ namespace Entity
                 pos.y              -= m_buildingObject.transform.localScale.y * 0.5f;
             }
             else
-            {
-                pos.y              -= m_buildingObject.transform.localScale.y;
-            }
+//             {
+//                 pos.y              -= m_buildingObject.transform.localScale.y;
+//             }
             pos.y                  += 0.02f;
-            pos                    += direction * BASEHALF_SIZE * m_shadowObject.transform.localScale.z;
+
+            float baseHalfSize      = m_lightType == ELightType.Spot ? FIX_BASE_SIZE * 0.5f : OBJ_POS_SIZE * 0.5f;
+            pos                    += direction * baseHalfSize * m_shadowObject.transform.localScale.z;
 
             m_shadowObject.transform.localPosition = pos;
         }
