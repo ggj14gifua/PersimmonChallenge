@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
 
 			if ( life == 0 )
 			{
+				Scene.NextScene = "Result";
 				Scene.canNextScene = true;
 				gameOverFlag = true;
 			}

@@ -6,9 +6,9 @@ public class Scene : MonoBehaviour {
 	public static bool canNextScene = false;
 	public static bool isFadeIn;
 	public static bool isFadeOut;
+	public static string NextScene;
 
 	public Texture2D blackTexture;
-	public string NextScene;
 	private float alpha;
 	private bool canNext = false;
 

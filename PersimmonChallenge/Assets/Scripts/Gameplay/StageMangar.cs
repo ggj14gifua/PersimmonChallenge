@@ -37,6 +37,7 @@ namespace Gameplay
 
         void OnTriggerEnter(Collider other)
         {
+			Scene.NextScene = "Result";
             Scene.canNextScene = true;
         }
 //------------------------------------------------------------------------
