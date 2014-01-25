@@ -119,7 +119,8 @@ namespace Entity
                 float   height  = m_buildingObject.transform.localScale.y * 2.0f;
                 float   length  = height / tan;
                 Vector3 scale   = m_shadowObject.transform.localScale;
-                scale.z         = length  / OBJ_LENGTH_SIZE;
+                // scale.z         = length  / OBJ_LENGTH_SIZE;
+                scale.z = m_spotLength;
                 m_shadowObject.transform.localScale = scale;
             }
             
@@ -147,12 +148,13 @@ namespace Entity
             if (m_lightType == ELightType.Spot)
             {
                 pos.y              -= m_buildingObject.transform.localScale.y * 0.5f;
+                pos.y += 0.01f;
             }
             else
 //             {
 //                 pos.y              -= m_buildingObject.transform.localScale.y;
 //             }
-            pos.y                  += 0.02f;
+            pos.y                  += 0.01f;
 
             float baseHalfSize      = m_lightType == ELightType.Spot ? FIX_BASE_SIZE * 0.5f : OBJ_POS_SIZE * 0.5f;
             pos                    += direction * baseHalfSize * m_shadowObject.transform.localScale.z;
