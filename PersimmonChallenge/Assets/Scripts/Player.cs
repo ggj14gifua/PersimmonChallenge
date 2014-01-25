@@ -9,11 +9,12 @@ public class Player : MonoBehaviour
 	float acceleration = 0.02f;
 	bool stateFlag = true;
 	bool gameOverFlag = false;
-	Vector3 startPosition = new Vector3( -2.8f, 1.4f, 2.7f );
+	Vector3 startPosition = Vector3.zero;
 
 	// Use this for initialization
 	void Start ()
 	{
+		startPosition.y = 5.0f;
 	}
 	
 	// Update is called once per frame
