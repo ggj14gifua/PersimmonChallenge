@@ -21,7 +21,7 @@ public class TitleUI : MonoBehaviour {
 
 	void OnGUI () {
 		if (GUI.Button (startButtonRect, "Start")) {
-			Scene.NextScene = "Game";
+			Scene.NextScene = "StageSelect";
 			Scene.canNextScene = true;
 		}
 	}
