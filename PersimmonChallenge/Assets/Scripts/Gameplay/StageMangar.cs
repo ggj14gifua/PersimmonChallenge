@@ -8,9 +8,7 @@ namespace Gameplay
     {
         [SerializeField] private GameObject     m_startPosition     = null;
         [SerializeField] private float          m_stageDistance     = 50.0f;
-        [SerializeField] private string         m_goalResource      = "Prefabs/Buiding_Fix";
-        [SerializeField] private Material       m_goalMaterial      = null;
-
+        [SerializeField] private string         m_goalResource      = "Prefabs/Buiding_End";
 
 //////////////////////////////////////////////////////////////////////////
 // 
@@ -27,9 +25,6 @@ namespace Gameplay
             endPosition.z          -= m_stageDistance;
             obj.transform.localPosition = endPosition;
             obj.name                = "EndPoint";
-
-            MeshRenderer meshRenderer   = obj.GetComponentInChildren<MeshRenderer>();
-            meshRenderer.material       = m_goalMaterial;
 
             Collider collider = obj.GetComponentInChildren<Collider>();
             if (collider != null)
