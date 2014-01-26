@@ -18,7 +18,7 @@ public class ResultUI : MonoBehaviour {
 		restartButtonRect = new Rect (Screen.width / 2.0f - buttonWidth / 2.0f,
 		                            ((Screen.height / 4.0f) * 3.0f) - buttonHeight / 2.0f,
 		                            buttonWidth, buttonHeight);
-		nextButtonRect = new Rect (Screen.width / 4.0f - buttonWidth / 2.0f,
+		restartButtonRect = new Rect (Screen.width / 4.0f - buttonWidth / 2.0f,
 		                            ((Screen.height / 4.0f) * 3.0f) - buttonHeight / 2.0f,
 		                            buttonWidth, buttonHeight);
 		selectButtonRect = new Rect ((Screen.width / 4.0f) * 3.0f - buttonWidth / 2.0f,
@@ -33,15 +33,11 @@ public class ResultUI : MonoBehaviour {
 
 	void OnGUI () {
 		if (GUI.Button (restartButtonRect, restart)) {
-			Scene.NextScene = "Game";
-			Scene.canNextScene = true;
-		}
-		if (GUI.Button (nextButtonRect, next)) {
-			Scene.NextScene = "Game";
+			Scene.NextScene = StageSelect.preStage;
 			Scene.canNextScene = true;
 		}
 		if (GUI.Button (selectButtonRect, select)) {
-			Scene.NextScene = "Title";
+			Scene.NextScene = "StageSelect";
 			Scene.canNextScene = true;
 		}
 	}

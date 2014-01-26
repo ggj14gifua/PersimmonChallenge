@@ -3,6 +3,7 @@ using System.Collections;
 
 public class StageSelect : MonoBehaviour {
 
+	public static string preStage;
 	public GameObject _1;
 	public GameObject _2;
 	public GameObject _3;
@@ -27,26 +28,32 @@ public class StageSelect : MonoBehaviour {
 
 			if (hitObject.collider.gameObject == _1) {
 				Scene.NextScene = "Stage1";
+				preStage = "Stage1";
 				Scene.canNextScene = true;
 			}
 			if (hitObject.collider.gameObject == _2) {
 				Scene.NextScene = "Stage2";
+				preStage = "Stage2";
 				Scene.canNextScene = true;
 			}
 			if (hitObject.collider.gameObject == _3) {
 				Scene.NextScene = "Stage3";
+				preStage = "Stage3";
 				Scene.canNextScene = true;
 			}
 			if (hitObject.collider.gameObject == _4) {
 				Scene.NextScene = "Stage4";
+				preStage = "Stage4";
 				Scene.canNextScene = true;
 			}
 			if (hitObject.collider.gameObject == _5) {
 				Scene.NextScene = "Stage5";
+				preStage = "Stage5";
 				Scene.canNextScene = true;
 			}
 			if (hitObject.collider.gameObject == _6) {
 				Scene.NextScene = "Stage6";
+				preStage = "Stage6";
 				Scene.canNextScene = true;
 			}
 		}
