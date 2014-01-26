@@ -2,7 +2,11 @@
 using System.Collections;
 
 public class ResultUI : MonoBehaviour {
-	
+
+	public Texture2D restart;
+	public Texture2D next;
+	public Texture2D select;
+
 	Rect restartButtonRect;
 	Rect nextButtonRect;
 	Rect selectButtonRect;
@@ -28,15 +32,15 @@ public class ResultUI : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		if (GUI.Button (restartButtonRect, "restart")) {
+		if (GUI.Button (restartButtonRect, restart)) {
 			Scene.NextScene = "Game";
 			Scene.canNextScene = true;
 		}
-		if (GUI.Button (nextButtonRect, "next")) {
+		if (GUI.Button (nextButtonRect, next)) {
 			Scene.NextScene = "Game";
 			Scene.canNextScene = true;
 		}
-		if (GUI.Button (selectButtonRect, "select")) {
+		if (GUI.Button (selectButtonRect, select)) {
 			Scene.NextScene = "Title";
 			Scene.canNextScene = true;
 		}
