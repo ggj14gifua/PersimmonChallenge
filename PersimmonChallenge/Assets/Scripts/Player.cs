@@ -4,6 +4,8 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 	public float AccelScale;
+    public GameObject MeshObject;
+
 	int life = 3;
 	int returnInterval = 0;
 	float acceleration = 0.02f;
@@ -59,7 +61,8 @@ public class Player : MonoBehaviour
 				transform.position = startPosition;
 				returnInterval = 0;
 				stateFlag = true;
-				renderer.enabled = true;
+                MeshObject.SetActive(true);
+				//renderer.enabled = true;
 			}
 		}
 	}
@@ -78,7 +81,8 @@ public class Player : MonoBehaviour
 		if ( other.name == "Borderline" )
 		{
 			// true：描画・false：描画しない
-			renderer.enabled = false;
+            MeshObject.SetActive(false);
+			//renderer.enabled = false;
 
 			// 残機を減らす
 			life -= 1;
