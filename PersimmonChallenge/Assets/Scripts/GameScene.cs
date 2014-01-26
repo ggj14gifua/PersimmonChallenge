@@ -14,7 +14,7 @@ public class GameScene : MonoBehaviour {
 		// 0: Mouse left button
 		// 1: Mouse right button
 		// 2: Mouse center button
-		if (Input.GetMouseButtonUp(0)) {
+		if (Input.GetMouseButtonUp(1)) {
 			Scene.NextScene = "Game";
 			Scene.canNextScene = true;
 		}

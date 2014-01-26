@@ -44,15 +44,15 @@ namespace Gameplay
 
 	    void Update()
 	    {
-            foreach (var light in m_directionalLightList)
-            {
-                Vector3 lightRotAngles          = light.transform.localRotation.eulerAngles;
-                LightLayer lightLayer = m_lightLayerList.Find(info => (int)info.m_layer == light.gameObject.layer );
-                light.transform.rotation        = Quaternion.Euler(lightRotAngles.x, lightRotAngles.y + Time.deltaTime * lightLayer.m_speed, lightRotAngles.z);
-            }
-            
-
-
+			if ( Pause.s_pauseFlag == false )
+			{
+	            foreach (var light in m_directionalLightList)
+	            {
+	                Vector3 lightRotAngles          = light.transform.localRotation.eulerAngles;
+	                LightLayer lightLayer = m_lightLayerList.Find(info => (int)info.m_layer == light.gameObject.layer );
+	                light.transform.rotation        = Quaternion.Euler(lightRotAngles.x, lightRotAngles.y + Time.deltaTime * lightLayer.m_speed, lightRotAngles.z);
+	            }
+			}
 	    }
 //------------------------------------------------------------------------
 
