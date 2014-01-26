@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
 			if ( life == 0 )
 			{
-				Scene.NextScene = "Result";
+				Scene.NextScene = "GameOver";
 				Scene.canNextScene = true;
 				gameOverFlag = true;
 			}

@@ -27,7 +27,7 @@ public class Scene : MonoBehaviour {
 			isFadeOut = true;
 		}
 		if (canNext) {
-			Application.LoadLevel(NextScene);
+			Application.LoadLevel( NextScene );
 			canNextScene = false;
 		}
 	}
