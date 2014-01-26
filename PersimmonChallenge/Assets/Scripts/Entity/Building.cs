@@ -45,7 +45,10 @@ namespace Entity
 
         void Update()
         {
-            UpdateShadow();
+			if ( Pause.s_pauseFlag == false )
+			{
+				UpdateShadow();
+			}
         }
 //------------------------------------------------------------------------
 

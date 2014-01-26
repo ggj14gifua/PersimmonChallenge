@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
 	bool stateFlag = true;
 	bool gameOverFlag = false;
 	Vector3 startPosition = Vector3.zero;
+	Vector3 temporaryVelocity;
+	Vector3 temporaryAngularVelocity;
+	bool repositFlag = false;
 
 	// Use this for initialization
 	void Start ()
@@ -22,47 +25,85 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		var dir = Vector3.zero;
-		dir.z = -Input.acceleration.y;
-		dir.x = -Input.acceleration.x;
-		
-		// clamp acceleration vector to unit sphere
-		if (dir.sqrMagnitude > 1) {
-			dir.Normalize();
-		}
-		Move (dir.x * AccelScale, dir.y * AccelScale, dir.z * AccelScale);
-		
-		if ( Input.GetKey( KeyCode.LeftArrow ) )
+		if ( Pause.s_pauseFlag == false )
 		{
-			Move (acceleration,0,0);
-		}
-		
-		if ( Input.GetKey( KeyCode.RightArrow ) )
-		{
-			Move (-acceleration,0,0);
-		}
-		
-		if ( Input.GetKey( KeyCode.UpArrow ) )
-		{
-			Move (0,0,-acceleration);
-		}
-		
-		if ( Input.GetKey( KeyCode.DownArrow ) )
-		{
-			Move (0,0,acceleration);
-		}
-
-		if ( stateFlag == false )
-		{
-			++returnInterval;
-
-			if ( returnInterval == 30 && gameOverFlag == false )
+			if ( repositFlag == true )
 			{
-				transform.position = startPosition;
-				returnInterval = 0;
-				stateFlag = true;
-                MeshObject.SetActive(true);
-				//renderer.enabled = true;
+				repositFlag = false;
+				
+				rigidbody.velocity = new Vector3( temporaryVelocity.x,
+				                                 temporaryVelocity.y,
+				                                 temporaryVelocity.z );
+				
+				rigidbody.angularVelocity = new Vector3( temporaryAngularVelocity.x,
+				                                        temporaryAngularVelocity.y,
+				                                        temporaryAngularVelocity.z );
+				
+				rigidbody.useGravity = true;
+			}
+
+			var dir = Vector3.zero;
+			dir.z = -Input.acceleration.y;
+			dir.x = -Input.acceleration.x;
+			
+			// clamp acceleration vector to unit sphere
+			if (dir.sqrMagnitude > 1) {
+				dir.Normalize();
+			}
+			Move (dir.x * AccelScale, dir.y * AccelScale, dir.z * AccelScale);
+			
+			if ( Input.GetKey( KeyCode.LeftArrow ) )
+			{
+				Move (acceleration,0,0);
+			}
+			
+			if ( Input.GetKey( KeyCode.RightArrow ) )
+			{
+				Move (-acceleration,0,0);
+			}
+			
+			if ( Input.GetKey( KeyCode.UpArrow ) )
+			{
+				Move (0,0,-acceleration);
+			}
+			
+			if ( Input.GetKey( KeyCode.DownArrow ) )
+			{
+				Move (0,0,acceleration);
+			}
+
+			if ( stateFlag == false )
+			{
+				++returnInterval;
+
+				if ( returnInterval == 30 && gameOverFlag == false )
+				{
+					transform.position = startPosition;
+					returnInterval = 0;
+					stateFlag = true;
+	                MeshObject.SetActive(true);
+					rigidbody.velocity = Vector3.zero;
+					rigidbody.angularVelocity = Vector3.zero;
+					//renderer.enabled = true;
+				}
+			}
+		}
+		else
+		{
+			if ( repositFlag == false )
+			{
+				temporaryVelocity.x = rigidbody.velocity.x;
+				temporaryVelocity.y = rigidbody.velocity.y;
+				temporaryVelocity.z = rigidbody.velocity.z;
+				
+				temporaryAngularVelocity.x = rigidbody.velocity.x;
+				temporaryAngularVelocity.y = rigidbody.velocity.y;
+				temporaryAngularVelocity.z = rigidbody.velocity.z;
+				rigidbody.useGravity = false;
+				
+				rigidbody.velocity = Vector3.zero;
+				rigidbody.angularVelocity = Vector3.zero;
+				repositFlag = true;
 			}
 		}
 	}
