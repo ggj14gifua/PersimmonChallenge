@@ -9,6 +9,7 @@ namespace Entity
         {
             Directional,
             Spot,
+            DirectionalLight,
         }
 
         [SerializeField] private GameObject     m_buildingObject    = null;
@@ -19,10 +20,10 @@ namespace Entity
         
         private MeshRenderer                    m_shadowRenderer    = null;
 
-        private const float FIX_BASE_SIZE   = 10.0f;
-        private const float OBJ_BASE_SIZE   = 20.0f/*10.0f*/;
-        private const float OBJ_LENGTH_SIZE = 25.0f/*10.0f*/;
-        private const float OBJ_POS_SIZE    = 10.0f;
+        private const float FIX_BASE_SIZE   = 1.0f/*10.0f*/;
+        private const float OBJ_BASE_SIZE       = 4.5f/*20.0f*/ /*10.0f*/;
+        private const float OBJ_LENGTH_SIZE     = 25.0f/*10.0f*/;
+        private const float OBJ_POS_SIZE        = 1.0f/*10.0f*/;
 
 //////////////////////////////////////////////////////////////////////////
 // 
@@ -33,7 +34,7 @@ namespace Entity
 	    void Awake()
         {
             // m_buildingRenderer  = m_buildingObject.GetComponent< MeshRenderer >();
-            m_shadowRenderer    = m_shadowObject.GetComponent< MeshRenderer >();
+            // m_shadowRenderer    = m_shadowObject.GetComponent< MeshRenderer >();
         }
 //------------------------------------------------------------------------
 
@@ -61,7 +62,7 @@ namespace Entity
 
         private void UpdateShadow()
         {
-            m_shadowRenderer.enabled    = true;
+            // m_shadowRenderer.enabled    = true;
 
             UpdateShadowRotation();
             UpdateShadowScale();
